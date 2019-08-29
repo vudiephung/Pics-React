@@ -7,10 +7,12 @@ class App extends React.Component {
   state = { images: [] };
 
   onSubmit = async term => {
+    const numPageRandom = Math.floor(Math.random() * 10);
+    const imgsPerPage = 50;
     const response = await unsplash.get("/search/photos", {
-      params: { query: term }
+      params: { query: term, per_page: imgsPerPage, page: numPageRandom }
     });
-    console.log(response.data.results);
+    //console.log(response.data.results);
     this.setState({ images: response.data.results });
   };
 
@@ -18,7 +20,7 @@ class App extends React.Component {
     return (
       <div className="ui container" style={{ marginTop: "10px" }}>
         <SearchBar onSubmit={this.onSubmit} />
-        Found: {this.state.images.length} images
+        <p>Found: {this.state.images.length} images</p>
         <ImageList imgs={this.state.images} />
       </div>
     );
